@@ -1,14 +1,14 @@
 <?php
 
-	/**
-	 * Automatically load all system classes
-	 */
-	function __autoload($class_name) {
-		global $C;
-		if(system_class_exists($class_name)) {
+  /**
+   * Automatically load all system classes
+   */
+  function __autoload($class_name) {
+    global $C;
+    if(system_class_exists($class_name)) {
       require_once($C->SYSTEM_CLASS.strtolower($class_name).'.php');
     }
-	}
+  }
 
   /**
    * Check if file exists

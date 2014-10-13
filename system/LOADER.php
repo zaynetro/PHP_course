@@ -1,13 +1,13 @@
 <?php
 
-	session_start();
+  session_start();
 
-	chdir(dirname(__FILE__));
+  chdir(dirname(__FILE__));
 
-	require_once("./conf_system.php");
-	require_once("./conf_db.php");
-	require_once("./helpers.php");
+  require_once("./conf_system.php");
+  require_once("./conf_db.php");
+  require_once("./helpers.php");
 
-	new Main();
+  new Main();
 
 ?>
