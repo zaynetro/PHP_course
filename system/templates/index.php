@@ -1,3 +1,6 @@
-<?php //require_once("header.php"); ?>
+<?php $this->load_template("header"); ?>
 HELLO!
-<?php //require_once("footer.php"); ?>
+
+<?php var_dump($this->page); ?>
+
+<?php $this->load_template("footer"); ?>
