@@ -1,2 +1,8 @@
 # Ignore logs
 *.log
+
+# Ignore composer components
+/vendor/
+
+# Ignore composer
+composer.phar

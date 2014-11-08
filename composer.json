@@ -1,0 +1,13 @@
+{
+    "name": "zaynetro/imdb",
+    "authors": [
+        {
+            "name": "Roman Zaynetdinov",
+            "email": "romanznet@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "heroku/heroku-buildpack-php": "*"
+    }
+}
