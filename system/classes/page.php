@@ -2,11 +2,13 @@
 
   class Page {
 
+    protected $u;
     protected $db;
     protected $page;
     function __construct() {
 
       $this->_db_connect();
+      $this->u = new U($this->db);
 
       if($this->db->not_working) {
         echo "Oops!<br>Error with connection to db<br>We will repair it soon";

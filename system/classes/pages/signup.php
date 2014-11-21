@@ -7,10 +7,10 @@
 
       $this->page->title = "Sign up";
 
-      if(isset($_POST['username'])) $this->handle_post();
+      if(isset($_POST['username'])) $this->_handle_post();
     }
 
-    function handle_post() {
+    private function _handle_post() {
       $username = $_POST['username'];
       $password = $_POST['password'];
       $repeat_pass = $_POST['repeatpassword'];
