@@ -35,13 +35,19 @@
         return false;
       }
 
-      $user_exists = $this->db->query("Select user_id FROM USERS WHERE (username = ?) LIMIT 1", array($username));
+      $user_exists = $this->db->query("SELECT user_id FROM USERS WHERE (username = ?) LIMIT 1", array($username));
       if(count($user_exists) > 0) {
         $this->page->error = "Selected username is taken";
         return false;
       }
 
       // TO DO: create password hash, add user to db and start session
+      if(!$this->u->create($username, $password)) {
+        $this->page->error = "There was a problem with database query, try again";
+        return false;
+      }
+
+      // TO DO: redirect user to somewhere
     }
 
   }

@@ -17,6 +17,7 @@
 
       $this->page = new stdClass;
       $this->page->title = "Page title";
+      $this->page->error = null;
     }
 
     function __destruct() {
