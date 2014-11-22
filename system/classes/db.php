@@ -9,8 +9,10 @@
     function __construct($host, $user, $pass, $dbname) {
       global $C;
 
-      if(!file_exists($C->DB_LOG)) {
-        file_put_contents($C->DB_LOG, "Init log file: ".date("F j, Y, g:i a")."\n");
+      $this->log = $C->DB_LOG;
+
+      if(!file_exists($this->log)) {
+        file_put_contents($this->log, "Init log file: ".date("F j, Y, g:i a")."\n");
       }
 
       try {
@@ -18,7 +20,7 @@
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       } catch(PDOException $e) {
         $this->not_working = true;
-        file_put_contents($C->DB_LOG, $e->getMessage(), FILE_APPEND);
+        file_put_contents($this->log, $e->getMessage(), FILE_APPEND);
       }
 
     }
@@ -29,7 +31,7 @@
         $sth->execute($values);
         return $sth->fetchAll();
       } catch(PDOException $e) {
-        file_put_contents($C->DB_LOG, $e->getMessage(), FILE_APPEND);
+        file_put_contents($this->log, $e->getMessage(), FILE_APPEND);
       }
 
       return null;
@@ -48,7 +50,7 @@
         $sth->execute($data);
         return $sth->lastInsertId();
       } catch(PDOException $e) {
-        file_put_contents($C->DB_LOG, $e->getMessage(), FILE_APPEND);
+        file_put_contents($this->log, $e->getMessage(), FILE_APPEND);
       }
 
       return null;
