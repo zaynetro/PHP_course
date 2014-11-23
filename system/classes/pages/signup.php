@@ -5,6 +5,11 @@
     function __construct($pages = NULL) {
       parent::__construct($pages);
 
+      if($this->u->logged) {
+        header("Location: /");
+        return;
+      }
+
       $this->page->title = "Sign up";
 
       if(isset($_POST['username'])) $this->_handle_post();
@@ -48,6 +53,7 @@
       }
 
       // TO DO: redirect user to somewhere
+      header("Location: /");
     }
 
   }

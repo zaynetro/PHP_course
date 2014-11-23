@@ -1,9 +1,13 @@
 <?php $this->load_template("header"); ?>
-Log In!
 
 <div class='container'>
 
   <h2>Log In</h2>
+
+  <?php if($this->page->error) { ?>
+  <div style='color: #c00'><?= $this->page->error; ?></div>
+  <?php } ?>
+
   <form method='POST' action=''>
     <div class='row'>
       <label>Username: </label>

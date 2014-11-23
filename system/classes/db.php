@@ -12,7 +12,7 @@
       $this->log = $C->DB_LOG;
 
       if(!file_exists($this->log)) {
-        file_put_contents($this->log, "Init log file: ".date("F j, Y, g:i a")."\n");
+        $this->_log("Init log file");
       }
 
       try {
@@ -20,7 +20,7 @@
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       } catch(PDOException $e) {
         $this->not_working = true;
-        file_put_contents($this->log, $e->getMessage(), FILE_APPEND);
+        $this->_log($e->getMessage());
       }
 
     }
@@ -31,7 +31,7 @@
         $sth->execute($values);
         return $sth->fetchAll();
       } catch(PDOException $e) {
-        file_put_contents($this->log, $e->getMessage(), FILE_APPEND);
+        $this->_log($e->getMessage());
       }
 
       return null;
@@ -48,12 +48,17 @@
       try {
         $sth = $this->conn->prepare("INSERT INTO {$table} ({$cols}) VALUES ($vals)");
         $sth->execute($data);
-        return $sth->lastInsertId();
+        if($sth->rowCount() > 0) return $this->conn->lastInsertId();
       } catch(PDOException $e) {
-        file_put_contents($this->log, $e->getMessage(), FILE_APPEND);
+        $this->_log($e->getMessage());
       }
 
       return null;
+    }
+
+    private function _log($msg) {
+      $msg = date("F j, Y, g:i a").": ".$msg."\n";
+      file_put_contents($this->log, $msg, FILE_APPEND);
     }
   }
 ?>

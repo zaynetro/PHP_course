@@ -7,6 +7,10 @@
   <body>
     <header>
       <a href='/'>Home</a>
+      <?php if($this->u->logged) { ?>
+      <a href='/logout'>Log out</a>
+      <?php } else { ?>
       <a href='/login'>Log in</a>
       <a href='/signup'>Sign up</a>
+      <?php } ?>
     </header>

@@ -5,6 +5,11 @@
     function __construct($pages = NULL) {
       parent::__construct($pages);
 
+      if($this->u->logged) {
+        header("Location: /");
+        return;
+      }
+
       $this->page->title = "Log In";
 
       if(isset($_POST['username'])) $this->_handle_post();
@@ -14,9 +19,13 @@
       $username = $_POST['username'];
       $password = $_POST['password'];
 
-      $user = $this->db->query("Select user_id FROM USERS WHERE (username=?) LIMIT 1", array($username));
+      if(!$this->u->login($username, $password)) {
+        $this->page->error = "User doen't exist";
+        return false;
+      }
 
-      // TO DO: compare password hashes
+      // Redirect to somewhere
+      header("Location: /");
     }
 
   }
