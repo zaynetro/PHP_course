@@ -36,7 +36,7 @@
       else $page = strtolower($pages);
 
       if(page_class_exists($page)) return $page;
-      else return "index";
+      else return "unknown";
     }
 
     /**
