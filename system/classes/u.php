@@ -1,8 +1,10 @@
 <?php
   //shortcut to user
   class U {
+
     public $logged = false;
     public $id;
+    public $is_admin = false;
     private $db;
 
     function __construct($db) {
@@ -21,17 +23,18 @@
       $user_id = $_SESSION[$C->SITEURL."-id"];
       $hash = $_SESSION[$C->SITEURL."-hash"];
 
-      $user = $this->db->query("SELECT username FROM USERS WHERE (user_id = ? AND hash = ?) LIMIT 1", array($user_id, $hash));
+      $user = $this->db->query("SELECT username, privilege FROM USERS WHERE (user_id = ? AND hash = ?) LIMIT 1", array($user_id, $hash));
       if(count($user) == 0) return false;
 
       $this->id = $user_id;
       $this->logged = true;
+      $this->_set_admin($user[0]['privilege']);
     }
 
     public function login($username, $password) {
       if($this->logged) return false;
       // Check password by using password_verify($pass, $hash)
-      $user = $this->db->query("SELECT user_id, hash FROM USERS WHERE (username = ?) LIMIT 1", array($username));
+      $user = $this->db->query("SELECT user_id, hash, privilege FROM USERS WHERE (username = ?) LIMIT 1", array($username));
       if(count($user) == 0) return false;
       $user = $user[0];
 
@@ -40,6 +43,7 @@
       $this->id = $user['user_id'];
       $this->logged = true;
       $this->_init_session($user['hash']);
+      $this->_set_admin($user['privilege']);
 
       return true;
     }
@@ -61,13 +65,16 @@
 
       if(!$user_id) return false;
 
+      $user_id = $user_id;
+
       $this->id = $user_id;
       $this->_init_session($hash);
       $this->logged = true;
 
       // Make first user admin
-      if($user_id == 1) {
-        $this->db->query("UPDATE USERS SET (privilege = ?) WHERE (user_id = ?) LIMIT 1", array(5, $user_id));
+      if($user_id == '1') {
+        $this->db->query("UPDATE USERS SET privilege = ? WHERE (user_id = ?) LIMIT 1", array(5, $user_id));
+        $this->is_admin = true;
       }
 
       return true;
@@ -99,6 +106,12 @@
       $this->id = NULL;
 
       return true;
+    }
+
+    private function _set_admin($privilege) {
+      if($privilege == 5) {
+        $this->is_admin = true;
+      }
     }
 
   }
