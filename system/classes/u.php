@@ -65,6 +65,11 @@
       $this->_init_session($hash);
       $this->logged = true;
 
+      // Make first user admin
+      if($user_id == 1) {
+        $this->db->query("UPDATE USERS SET (privilege = ?) WHERE (user_id = ?) LIMIT 1", array(5, $user_id));
+      }
+
       return true;
     }
 
