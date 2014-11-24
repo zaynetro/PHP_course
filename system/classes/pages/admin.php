@@ -12,9 +12,7 @@
 
       $this->page->title = "Admin";
 
-      if(count($pages) == 1) {
-        $this->_show_main();
-      }
+      $this->_show_main();
     }
 
     private function _show_main() {

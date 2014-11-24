@@ -7,7 +7,10 @@
   <body>
     <header>
       <a href='/'>Home</a>
-      <?php if($this->u->logged) { ?>
+
+      <?php if ($this->u->is_admin) { ?>
+      <a href='/admin'>Admin</a>
+      <?php } if($this->u->logged) { ?>
       <a href='/logout'>Log out</a>
       <?php } else { ?>
       <a href='/login'>Log in</a>
