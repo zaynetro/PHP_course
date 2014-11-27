@@ -5,6 +5,8 @@
     protected $u;
     protected $db;
     protected $page;
+    protected $template;
+
     function __construct() {
 
       $this->_db_connect();
@@ -18,6 +20,8 @@
       $this->page = new stdClass;
       $this->page->title = "Page title";
       $this->page->error = null;
+
+      $this->template = get_class($this);
     }
 
     function __destruct() {
@@ -31,7 +35,7 @@
 
     protected function load_template($template = NULL) {
       global $C;
-      if(!$template) $template = get_class($this);
+      if(!$template) $template = $this->template;
       $this->load_file_once($C->TEMPLATES, $template);
     }
 

@@ -7,28 +7,14 @@
     public $is_admin = false;
     private $db;
 
+    const COOKIE_DUR = 2592000; // 30 days
+    const ADMIN_PRIVILEGE = 5;
+    const COOKIE_NAME = "imdb";
+
     function __construct($db) {
 
       $this->db = $db;
       $this->_trylogin();
-    }
-
-    private function _trylogin() {
-      global $C;
-      // Try to log in using $_SESSION
-      if($this->logged) return false;
-      if(!isset($_SESSION[$C->SITEURL."-id"])) return false;
-      if(!isset($_SESSION[$C->SITEURL."-hash"])) return false;
-
-      $user_id = $_SESSION[$C->SITEURL."-id"];
-      $hash = $_SESSION[$C->SITEURL."-hash"];
-
-      $user = $this->db->query("SELECT username, privilege FROM USERS WHERE (user_id = ? AND hash = ?) LIMIT 1", array($user_id, $hash));
-      if(count($user) == 0) return false;
-
-      $this->id = $user_id;
-      $this->logged = true;
-      $this->_set_admin($user[0]['privilege']);
     }
 
     public function login($username, $password) {
@@ -43,18 +29,10 @@
       $this->id = $user['user_id'];
       $this->logged = true;
       $this->_init_session($user['hash']);
+      $this->_init_cookie();
       $this->_set_admin($user['privilege']);
 
       return true;
-    }
-
-    private function _create_hash($password) {
-      $options = [
-        'cost' => 9,
-        'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
-      ];
-
-      return password_hash($password, PASSWORD_BCRYPT, $options);
     }
 
     public function create($username, $password) {
@@ -69,13 +47,69 @@
 
       $this->id = $user_id;
       $this->_init_session($hash);
+      $this->_init_cookie();
       $this->logged = true;
 
       // Make first user admin
       if($user_id == '1') {
-        $this->db->query("UPDATE USERS SET privilege = ? WHERE (user_id = ?) LIMIT 1", array(5, $user_id));
+        $this->db->query("UPDATE USERS SET privilege = ? WHERE (user_id = ?) LIMIT 1", array(self::ADMIN_PRIVILEGE, $user_id));
         $this->is_admin = true;
       }
+
+      return true;
+    }
+
+    public function logout() {
+      if(!$this->logged) return false;
+
+      $this->_unset_session();
+      $this->_unset_cookie();
+
+      $this->logged = false;
+      $this->id = NULL;
+
+      return true;
+    }
+
+    private function _trylogin() {
+      global $C;
+
+      if($this->logged) return false;
+      if(!isset($_SESSION[$C->SITEURL."-id"])
+        || !isset($_SESSION[$C->SITEURL."-hash"])) {
+        // Try to get session from cookies
+        if(!$this->_session_from_cookie()) return false;
+      }
+
+      $user_id = $_SESSION[$C->SITEURL."-id"];
+      $hash = $_SESSION[$C->SITEURL."-hash"];
+
+      $user = $this->db->query("SELECT username, privilege FROM USERS WHERE (user_id = ? AND hash = ?) LIMIT 1", array($user_id, $hash));
+      if(count($user) == 0) return false;
+
+      $this->id = $user_id;
+      $this->logged = true;
+      $this->_set_admin($user[0]['privilege']);
+    }
+
+    private function _create_hash($password) {
+      $options = [
+        'cost' => 9,
+        'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+      ];
+
+      return password_hash($password, PASSWORD_BCRYPT, $options);
+    }
+
+    private function _session_from_cookie() {
+      global $C;
+
+      if(!isset($_COOKIE[self::COOKIE_NAME])) return false;
+
+      list($id, $hash) = explode("_", $_COOKIE[self::COOKIE_NAME], 2);
+
+      $_SESSION[$C->SITEURL."-id"] = $id;
+      $_SESSION[$C->SITEURL."-hash"] = $hash;
 
       return true;
     }
@@ -87,29 +121,25 @@
       $_SESSION[$C->SITEURL."-hash"] = $hash;
     }
 
-    private function _unset_session() {
+    private function _init_cookie() {
       global $C;
 
-      $_SESSION[$C->SITEURL."-id"] = NULL;
-      $_SESSION[$C->SITEURL."-hash"] = NULL;
+      $id = $_SESSION[$C->SITEURL."-id"];
+      $hash = $_SESSION[$C->SITEURL."-hash"];
 
-      unset($_SESSION[$C->SITEURL."-id"]);
-      unset($_SESSION[$C->SITEURL."-hash"]);
+      setcookie(self::COOKIE_NAME, $id."_".$hash, time() + self::COOKIE_DUR);
     }
 
-    public function logout() {
-      if(!$this->logged) return false;
+    private function _unset_session() {
+      session_destroy();
+    }
 
-      $this->_unset_session();
-
-      $this->logged = false;
-      $this->id = NULL;
-
-      return true;
+    private function _unset_cookie() {
+      setcookie(self::COOKIE_NAME, "", time() - self::COOKIE_DUR);
     }
 
     private function _set_admin($privilege) {
-      if($privilege == 5) {
+      if($privilege == self::ADMIN_PRIVILEGE) {
         $this->is_admin = true;
       }
     }
