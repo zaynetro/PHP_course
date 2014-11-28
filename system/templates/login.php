@@ -2,7 +2,7 @@
 
 <div class='container'>
 
-  <h2>Log In</h2>
+  <h1>Log In</h1>
 
   <?php if($this->page->error) { ?>
   <div style='color: #c00'><?= $this->page->error; ?></div>
