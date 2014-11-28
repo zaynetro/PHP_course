@@ -4,9 +4,13 @@
 
   <a href='/movies'><h3>Go to all movies</h3></a>
 
+  <?php if(count($this->page->movie) == 0) { ?>
+  <div style='color: #c00;'>Movie not found</div>
   <?php
-    foreach($this->movies as $movie) {
-      require("movie_container.php");
+    } else {
+      foreach($this->page->movie as $movie) {
+        require("full.php");
+      }
     }
   ?>
 

@@ -7,7 +7,7 @@
 
       if($this->u->logged) {
         header("Location: /");
-        return;
+        exit;
       }
 
       $this->page->title = "Sign up";
@@ -46,14 +46,13 @@
         return false;
       }
 
-      // TO DO: create password hash, add user to db and start session
       if(!$this->u->create($username, $password)) {
         $this->page->error = "There was a problem with database query, try again";
         return false;
       }
 
-      // TO DO: redirect user to somewhere
       header("Location: /");
+      exit;
     }
 
   }

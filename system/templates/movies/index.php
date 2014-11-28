@@ -4,8 +4,8 @@
 
   <h1>Movies</h1>
   <?php
-    foreach($this->movies as $movie) {
-      require("movie_container.php");
+    foreach($this->page->movies as $movie) {
+      require("short.php");
     }
   ?>
 </div>

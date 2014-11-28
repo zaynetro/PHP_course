@@ -24,8 +24,8 @@
         return false;
       }
 
-      // Redirect to somewhere
       header("Location: /");
+      exit;
     }
 
   }

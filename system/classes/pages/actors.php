@@ -30,12 +30,12 @@
     }
 
     private function _show($actor_id) {
-      $this->actors = $this->db->query("SELECT * FROM ACTORS WHERE (actor_id = ?) LIMIT 1", array($actor_id));
+      $this->page->actor = $this->db->query("SELECT * FROM ACTORS WHERE (actor_id = ?) LIMIT 1", array($actor_id));
       $this->template = 'actors/show';
     }
 
     private function _index() {
-      $this->actors = $this->db->query("SELECT * FROM ACTORS", array());
+      $this->page->actors = $this->db->query("SELECT * FROM ACTORS", array());
       $this->template = 'actors/index';
     }
 

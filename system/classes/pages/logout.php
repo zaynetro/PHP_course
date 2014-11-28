@@ -7,11 +7,12 @@
 
       if(!$this->u->logged) {
         header("Location: /login");
-        return;
+        exit;
       }
 
       $this->u->logout();
       header("Location: /");
+      exit;
     }
 
   }

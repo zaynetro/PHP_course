@@ -30,12 +30,12 @@
     }
 
 		private function _show($movie_id) {
-			$this->movies = $this->db->query("SELECT * FROM MOVIES WHERE (movie_id = ?) LIMIT 1", array($movie_id));
+			$this->page->movie = $this->db->query("SELECT * FROM MOVIES WHERE (movie_id = ?) LIMIT 1", array($movie_id));
       $this->template = 'movies/show';
 		}
 
 		private function _index() {
-			$this->movies = $this->db->query("SELECT * FROM MOVIES", array());
+			$this->page->movies = $this->db->query("SELECT * FROM MOVIES", array());
       $this->template = 'movies/index';
 		}
 

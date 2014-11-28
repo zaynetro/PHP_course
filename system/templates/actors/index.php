@@ -4,8 +4,8 @@
 
   <h1>Actors</h1>
   <?php
-    foreach($this->actors as $actor) {
-      require("actor_container.php");
+    foreach($this->page->actors as $actor) {
+      require("short.php");
     }
   ?>
 </div>
