@@ -1,29 +1,46 @@
 <?php $this->load_template("header"); ?>
 
+<?php
+
+  $fields = ['title', 'description', 'poster_url', 'year'];
+  $vals = [];
+  $type = 'add';
+
+  if(isset($this->page->movie)) $type = 'edit';
+
+  foreach ($fields as $field) {
+    $vals[$field] = '';
+    if(isset($_POST[$field])) $vals[$field] = $_POST[$field];
+    else if(isset($this->page->movie)) $vals[$field] = $this->page->movie[$field];
+  }
+
+?>
+
 <div class='container'>
 
-  <h1>Add movie</h1>
+  <h1><?php if($type == 'edit') { ?>Edit<?php } else { ?>Add <?php } ?> movie</h1>
 
   <div style='color: #c00'>
     <?= $this->page->error; ?>
   </div>
 
   <form method="POST" action="">
+    <input type='hidden' name='type' value='<?= $type; ?>' />
     <div>
       <label>Title: </label>
-      <input type='text' name='title' value='<?php if(isset($_POST["title"])) echo $_POST["title"]; ?>' />
+      <input type='text' name='title' value='<?= $vals['title']; ?>' />
     </div>
     <div>
       <label>Description: </label>
-      <textarea name='description'><?php if(isset($_POST["description"])) echo $_POST["description"]; ?></textarea>
+      <textarea name='description'><?= $vals['description']; ?></textarea>
     </div>
     <div>
       <label>Poster url: </label>
-      <input type="text" name="poster_url" value='<?php if(isset($_POST["poster_url"])) echo $_POST["poster_url"]; ?>' />
+      <input type="text" name="poster_url" value='<?= $vals['poster_url']; ?>' />
     </div>
     <div>
       <label>Year: </label>
-      <input type='text' name='year' value='<?php if(isset($_POST["year"])) echo $_POST["year"]; ?>' />
+      <input type='text' name='year' value='<?= $vals['year']; ?>' />
     </div>
     <div>
       <input type="submit" value="Add" />
