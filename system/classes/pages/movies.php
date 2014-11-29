@@ -48,6 +48,15 @@
 
 		private function _show($movie_id) {
 			$this->page->movie = $this->db->query("SELECT * FROM MOVIES WHERE (movie_id = ?) LIMIT 1", array($movie_id));
+      if(count($this->page->movie) > 0) {
+        // Select movies in which actor is performing
+        $query = "SELECT A.actor_id, A.name
+                  FROM ACTORS A
+                  INNER JOIN MOVIE_ACTOR_LINKS L
+                  ON A.actor_id = L.actor_id
+                  WHERE L.movie_id = ?";
+        $this->page->movie[0]['actors'] = $this->db->query($query, array($movie_id));
+      }
       $this->template = 'movies/show';
 		}
 
@@ -96,6 +105,7 @@
 
     private function _create()  {
       $this->template = 'movies/new';
+
       $title = htmlspecialchars($_POST['title']);
       $description = htmlspecialchars($_POST['description']);
       $poster_url = $_POST['poster_url'];
@@ -119,6 +129,7 @@
 
     private function _update($movie_id) {
       $this->template = 'movies/new';
+
       $title = htmlspecialchars($_POST['title']);
       $description = htmlspecialchars($_POST['description']);
       $poster_url = $_POST['poster_url'];
@@ -127,7 +138,7 @@
       $err = $this->_check_fields($title, $description, $poster_url, $year);
 
       if(strlen($err) > 0) {
-        $this->page->err = $err;
+        $this->page->error = $err;
         return;
       }
 

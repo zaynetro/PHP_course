@@ -6,15 +6,18 @@
   $vals = [];
   $type = 'add';
 
-  if(isset($this->page->movie)) $type = 'edit';
+  if(isset($this->page->actor)) $type = 'edit';
 
   foreach ($fields as $field) {
     $vals[$field] = '';
     if(isset($_POST[$field])) $vals[$field] = $_POST[$field];
-    else if(isset($this->page->movie)) $vals[$field] = $this->page->movie[$field];
+    else if(isset($this->page->actor)) $vals[$field] = $this->page->actor[$field];
   }
 
-
+  $options = "";
+  foreach ($this->page->movies as $movie) {
+    $options .= "<option value=".$movie['movie_id'].">".$movie['title']."</option>";
+  }
 ?>
 
 <div class='container'>
@@ -34,6 +37,10 @@
     <div>
       <label>Picture url: </label>
       <input type="text" name="picture_url" value='<?= $vals['picture_url']; ?>' />
+    </div>
+    <div>
+      <label>Played in: </label>
+      <select name='movies[]' multiple="true" size="5"><?= $options; ?></select>
     </div>
     <div>
       <input type="submit" value="Add" />

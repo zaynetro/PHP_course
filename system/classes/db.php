@@ -25,7 +25,7 @@
 
     }
 
-    public function query($query, $values) {
+    public function query($query, $values = null) {
       try {
         $sth = $this->conn->prepare($query);
         $sth->execute($values);

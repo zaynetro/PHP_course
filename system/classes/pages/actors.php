@@ -48,6 +48,15 @@
 
     private function _show($actor_id) {
       $this->page->actor = $this->db->query("SELECT * FROM ACTORS WHERE (actor_id = ?) LIMIT 1", array($actor_id));
+      if(count($this->page->actor) > 0) {
+        // Select movies in which actor is performing
+        $query = "SELECT M.movie_id, M.title
+                  FROM MOVIES M
+                  INNER JOIN MOVIE_ACTOR_LINKS L
+                  ON M.movie_id = L.movie_id
+                  WHERE L.actor_id = ?";
+        $this->page->actor[0]['movies'] = $this->db->query($query, array($actor_id));
+      }
       $this->template = 'actors/show';
     }
 
@@ -68,6 +77,8 @@
         }
         $this->page->actor = $this->page->actor[0];
       }
+
+      $this->page->movies = $this->db->query("SELECT movie_id, title from MOVIES ORDER BY title");
     }
 
     private function _check_fields($name, $picture_url) {
@@ -106,15 +117,24 @@
 
       $name = htmlspecialchars($_POST['name']);
       $picture_url = $_POST['picture_url'];
+      $movies = $_POST['movies'];
 
       $err = $this->_check_fields($name, $picture_url);
 
       if(strlen($err) > 0) {
-        $this->page->err = $err;
+        $this->page->error = $err;
+        $this->page->movies = $this->db->query("SELECT movie_id, title from MOVIES ORDER BY title");
         return;
       }
 
       $this->db->query("UPDATE ACTORS SET name = ?, picture_url = ? WHERE actor_id = ?", array($name, $picture_url, $actor_id));
+
+      // Remove old entries (don't want to waste time on handling updates)
+      $this->db->query("DELETE FROM MOVIE_ACTOR_LINKS WHERE actor_id = ?", array($actor_id));
+      foreach ($movies as $movie_id) {
+        // Insert new
+        $this->db->insert("MOVIE_ACTOR_LINKS", array('movie_id' => $movie_id, 'actor_id' => $actor_id));
+      }
 
       header("Location: /actors/".$actor_id);
       exit;
