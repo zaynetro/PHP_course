@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title><?= $this->get_title() ?></title>
+    <link rel="stylesheet" type="text/css" href="/i/styles/template.css" />
   </head>
   <body>
     <header>
