@@ -1,4 +1,4 @@
-<?php $this->load_template("header"); ?>
+<?php $this->load_template("sections/header"); ?>
 
 <div class='container'>
 
@@ -26,4 +26,4 @@
   </form>
 </div>
 
-<?php $this->load_template("footer"); ?>
+<?php $this->load_template("sections/footer"); ?>

@@ -1,4 +1,4 @@
-<?php $this->load_template("header"); ?>
+<?php $this->load_template("sections/header"); ?>
 HELLO!
 
 <h3>Page</h3>
@@ -11,4 +11,4 @@ HELLO!
 <?php var_dump($this->u); ?>
 </pre>
 
-<?php $this->load_template("footer"); ?>
+<?php $this->load_template("sections/footer"); ?>
