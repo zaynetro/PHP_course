@@ -7,6 +7,8 @@
   <body>
     <header>
       <a href='/'>Home</a>
+      <a href='/movies'>Movies</a>
+      <a href='/actors'>Actors</a>
 
       <?php if ($this->u->is_admin) { ?>
       <a href='/admin'>Admin</a>
