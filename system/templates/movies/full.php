@@ -4,6 +4,7 @@
   $title = $movie['title'];
   $pic = $movie['poster_url'];
   $description = $movie['description'];
+  $rating = $movie['rating'];
   $actors = $movie['actors'];
   $confirm_msg = 'Are you sure you want to remove this movie?';
 
@@ -23,7 +24,18 @@
     <h3>Description:</h3>
     <div><?= $description; ?></div>
 
-    <h3>Rating:</h3>
+    <h3>Rating</h3>
+    <div>
+      <?php if($this->u->logged) { ?>
+      <a href='/movies/<?= $id; ?>/dislike'>-</a>
+      <?php } ?>
+      <span><?= $rating; ?></span>
+      <?php if($this->u->logged) { ?>
+      <a href='/movies/<?= $id; ?>/like'>+</a>
+      <?php } ?>
+    </div>
+
+
     <h3>Actors in the movie:</h3>
     <ul>
       <?php foreach ($actors as $actor) { ?>

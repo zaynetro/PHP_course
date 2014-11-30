@@ -31,16 +31,29 @@
       }
 
       if(count($pages) > 2) {
+        $movie_id = (int) $pages[1];
+
+        // Section for only logged users
+        if(!$this->u->logged) {
+          header("Location: /movies/".$movie_id);
+          exit;
+        }
+
+        // Like movie
+        if($pages[2] == 'like') return $this->_rate_movie($movie_id);
+        // Dislike movie
+        if($pages[2] == 'dislike') return $this->_rate_movie($movie_id, true);
+
         // Only admin has access
         if(!$this->u->is_admin) {
-          header("Location: /movies");
+          header("Location: /movies/".$movie_id);
           exit;
         }
 
         // Show edit form
-        if($pages[2] == 'edit') return $this->_new((int) $pages[1]);
+        if($pages[2] == 'edit') return $this->_new($movie_id);
         // Remove movie
-        if($pages[2] == 'remove') return $this->_remove((int) $pages[1]);
+        if($pages[2] == 'remove') return $this->_remove($movie_id);
       }
 
       $this->_show((int) $pages[1]);
@@ -153,6 +166,15 @@
       $this->db->query("DELETE FROM MOVIES WHERE movie_id = ?", array($movie_id));
 
       header("Location: /movies");
+      exit;
+    }
+
+    private function _rate_movie($movie_id, $disliked = false) {
+      if($disliked) $q = "UPDATE MOVIES SET rating = rating-1 WHERE movie_id = ?";
+      else $q = "UPDATE MOVIES SET rating = rating+1 WHERE movie_id = ?";
+      $this->db->query($q, array($movie_id));
+
+      header("Location: /movies/".$movie_id);
       exit;
     }
   }
