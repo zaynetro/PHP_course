@@ -61,7 +61,7 @@
     }
 
     private function _index() {
-      $this->page->actors = $this->db->query("SELECT * FROM ACTORS ORDER BY name", array());
+      $this->page->actors = $this->db->query("SELECT actor_id, name, picture_url FROM ACTORS ORDER BY name");
       $this->template = 'actors/index';
     }
 

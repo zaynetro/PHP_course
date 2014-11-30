@@ -74,7 +74,7 @@
 		}
 
 		private function _index() {
-			$this->page->movies = $this->db->query("SELECT * FROM MOVIES ORDER BY title", array());
+			$this->page->movies = $this->db->query("SELECT movie_id, title, poster_url FROM MOVIES ORDER BY title");
       $this->template = 'movies/index';
 		}
 
