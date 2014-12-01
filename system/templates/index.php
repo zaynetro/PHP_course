@@ -3,6 +3,7 @@
 <?php
   $movies = $this->page->movies;
   $actors = $this->page->actors;
+  $reviews = $this->page->reviews;
 ?>
 
 <div class='container'>
@@ -24,7 +25,11 @@
   </ul>
 
   <h2>Last reviews</h2>
-  <ul></ul>
+  <ul>
+    <?php foreach($reviews as $review) { ?>
+    <li><?= $this->short_review_with_link($review['review'], $review['movie_id']); ?></li>
+    <?php } ?>
+  </ul>
 
 </div>
 
