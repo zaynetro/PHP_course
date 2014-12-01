@@ -11,6 +11,10 @@
 
       // Handle POST request
       if(count($_POST) > 0) {
+        if($_POST['type'] == 'review') {
+          $this->_create_review((int) $pages[1]);
+          return $this->_show((int) $pages[1]);
+        }
         if($_POST['type'] == 'edit') return $this->_update((int) $pages[1]);
         return $this->_create();
       }
@@ -69,6 +73,10 @@
                   ON A.actor_id = L.actor_id
                   WHERE L.movie_id = ?";
         $this->page->movie[0]['actors'] = $this->db->query($query, array($movie_id));
+
+        // Select reviews
+        $query = "SELECT * FROM REVIEWS WHERE movie_id = ?";
+        $this->page->movie[0]['reviews'] = $this->db->query($query, array($movie_id));
       }
       $this->template = 'movies/show';
 		}
@@ -176,6 +184,19 @@
 
       header("Location: /movies/".$movie_id);
       exit;
+    }
+
+    private function _create_review($movie_id) {
+      $review = htmlspecialchars($_POST['review']);
+
+      if(strlen($review) < 10) {
+        $this->page->review_error = "Review is too short";
+        return;
+      }
+
+      $this->db->insert("REVIEWS", array("movie_id" => $movie_id, "user_id" => $this->u->id, "review" => $review));
+
+      $_POST['review'] = '';
     }
   }
 ?>

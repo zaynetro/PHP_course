@@ -8,6 +8,11 @@
   $actors = $movie['actors'];
   $confirm_msg = 'Are you sure you want to remove this movie?';
 
+  $review_val = '';
+  if(isset($_POST['review'])) $review_val = $_POST['review'];
+
+  $reviews = $movie['reviews'];
+
 ?>
 <div class='movie_container'>
   <h2><?= $title; ?></h2>
@@ -42,5 +47,35 @@
       <li><a href='/actors/<?= $actor['actor_id']; ?>'><?= $actor['name']; ?></a></li>
       <?php } ?>
     </ul>
+  </div>
+
+  <div>
+    <h3>Reviews</h3>
+
+    <?php if(isset($this->page->review_error)) { ?>
+    <div style="color: #c00"><?= $this->page->review_error; ?></div>
+    <?php } ?>
+
+    <?php if($this->u->logged) { ?>
+    <div>
+      <form method='POST' action=''>
+      <input type='hidden' name='type' value='review' />
+        <div>
+          <input type='text' name='review' value='<?= $review_val; ?>' />
+        </div>
+        <div>
+          <input type='submit' value='Add' />
+        </div>
+      </form>
+    </div>
+    <?php } ?>
+
+    <?php foreach($reviews as $review) { ?>
+    <hr />
+    <div>
+      <div><?= $review['review']; ?></div>
+      <div>Created at <?= $review['created_at']; ?></div>
+    </div>
+    <?php } ?>
   </div>
 </div>
