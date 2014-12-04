@@ -22,12 +22,13 @@
       <?php } else { ?>
       <li><a href='/login'>Log in</a></li>
       <li><a href='/signup'>Sign up</a></li>
-      <?php } ?>
-
-      <form method='GET' action='/search'>
-        <input type='text' name='q' placeholder='Search..' />
-        <input type='submit' value='Search' />
+      <?php } ?>	  
+	  
+      <form class="navbar-form navbar-left" method='GET' action='/search'>
+        <input type='text' name='q' class="form-control" placeholder='Search...' />
+        <button type='submit' class="btn btn-default" value='Search'>Search</button>
       </form>
+	  
     </header>
 	</li>
     </ul>
