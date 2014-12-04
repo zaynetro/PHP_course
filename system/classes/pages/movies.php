@@ -11,6 +11,10 @@
 
       // Handle POST request
       if(count($_POST) > 0) {
+        if($_POST['type'] == 'review') {
+          $this->_create_review((int) $pages[1]);
+          return $this->_show((int) $pages[1]);
+        }
         if($_POST['type'] == 'edit') return $this->_update((int) $pages[1]);
         return $this->_create();
       }
@@ -31,16 +35,29 @@
       }
 
       if(count($pages) > 2) {
+        $movie_id = (int) $pages[1];
+
+        // Section for only logged users
+        if(!$this->u->logged) {
+          header("Location: /movies/".$movie_id);
+          exit;
+        }
+
+        // Like movie
+        if($pages[2] == 'like') return $this->_rate_movie($movie_id);
+        // Dislike movie
+        if($pages[2] == 'dislike') return $this->_rate_movie($movie_id, true);
+
         // Only admin has access
         if(!$this->u->is_admin) {
-          header("Location: /movies");
+          header("Location: /movies/".$movie_id);
           exit;
         }
 
         // Show edit form
-        if($pages[2] == 'edit') return $this->_new((int) $pages[1]);
+        if($pages[2] == 'edit') return $this->_new($movie_id);
         // Remove movie
-        if($pages[2] == 'remove') return $this->_remove((int) $pages[1]);
+        if($pages[2] == 'remove') return $this->_remove($movie_id);
       }
 
       $this->_show((int) $pages[1]);
@@ -56,12 +73,16 @@
                   ON A.actor_id = L.actor_id
                   WHERE L.movie_id = ?";
         $this->page->movie[0]['actors'] = $this->db->query($query, array($movie_id));
+
+        // Select reviews
+        $query = "SELECT * FROM REVIEWS WHERE movie_id = ?";
+        $this->page->movie[0]['reviews'] = $this->db->query($query, array($movie_id));
       }
       $this->template = 'movies/show';
 		}
 
 		private function _index() {
-			$this->page->movies = $this->db->query("SELECT * FROM MOVIES ORDER BY title", array());
+			$this->page->movies = $this->db->query("SELECT movie_id, title, poster_url FROM MOVIES ORDER BY title");
       $this->template = 'movies/index';
 		}
 
@@ -154,6 +175,28 @@
 
       header("Location: /movies");
       exit;
+    }
+
+    private function _rate_movie($movie_id, $disliked = false) {
+      if($disliked) $q = "UPDATE MOVIES SET rating = rating-1 WHERE movie_id = ?";
+      else $q = "UPDATE MOVIES SET rating = rating+1 WHERE movie_id = ?";
+      $this->db->query($q, array($movie_id));
+
+      header("Location: /movies/".$movie_id);
+      exit;
+    }
+
+    private function _create_review($movie_id) {
+      $review = htmlspecialchars($_POST['review']);
+
+      if(strlen($review) < 10) {
+        $this->page->review_error = "Review is too short";
+        return;
+      }
+
+      $this->db->insert("REVIEWS", array("movie_id" => $movie_id, "user_id" => $this->u->id, "review" => $review));
+
+      $_POST['review'] = '';
     }
   }
 ?>

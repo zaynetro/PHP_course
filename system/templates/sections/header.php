@@ -23,6 +23,11 @@
       <li><a href='/login'>Log in</a></li>
       <li><a href='/signup'>Sign up</a></li>
       <?php } ?>
+
+      <form method='GET' action='/search'>
+        <input type='text' name='q' placeholder='Search..' />
+        <input type='submit' value='Search' />
+      </form>
     </header>
 	</li>
     </ul>
