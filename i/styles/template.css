@@ -1,1 +1,25 @@
+.navbar {
+	border-radius: 0px !important;
+}
+.form-signin{
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+}
 
+.container_actors_movies{
+	display: flex;
+}
+
+.movie_container{
+	padding-right: 50px;
+}
+
+.actor_container{
+	padding-right: 50px;
+}
+
+.about{
+	display: inline-block;
+	margin-left: 50px;
+}

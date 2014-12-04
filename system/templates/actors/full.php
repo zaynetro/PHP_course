@@ -18,7 +18,7 @@
   </div>
   <?php } ?>
   <img src="<?= $pic; ?>" alt="<?= $name; ?>">
-  <div>
+  <div class="about">
     <h3>Played in movies:</h3>
     <ul>
       <?php foreach ($movies as $movie) { ?>

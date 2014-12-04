@@ -19,7 +19,7 @@
   </div>
   <?php } ?>
   <img src="<?= $pic; ?>" alt="<?= $title; ?>" />
-  <div>
+  <div class="about">
     <h3>Description:</h3>
     <div><?= $description; ?></div>
 

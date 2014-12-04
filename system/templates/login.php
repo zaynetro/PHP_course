@@ -2,24 +2,17 @@
 
 <div class='container'>
 
-  <h1>Log In</h1>
-
   <?php if($this->page->error) { ?>
   <div style='color: #c00'><?= $this->page->error; ?></div>
   <?php } ?>
 
-  <form method='POST' action=''>
-    <div class='row'>
-      <label>Username: </label>
-      <input type='text' name='username' />
-    </div>
-    <div class='row'>
-      <label>Password: </label>
-      <input type='password' name='password' />
-    </div>
-    <div class='row'>
-      <input type='submit' value='Log In' />
-    </div>
+  <form class='form-signin' role="form" method='POST' action=''>
+  <h2 class='form-signin-heading'>Please Sign In</h2>
+      <label>Username:</label>
+      <input type='text' name='username' class="form-control" />
+      <label>Password:</label>
+      <input type='password' name='password' class="form-control"  />
+      <button style="margin-top: 20px;" class='btn btn-lg btn-primary btn-block' type='submit'>Log In</button>
   </form>
 </div>
 
