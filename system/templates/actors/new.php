@@ -28,24 +28,25 @@
     <?= $this->page->error; ?>
   </div>
 
-  <form method="POST" action="">
-    <input type='hidden' name='type' value='<?= $type; ?>' />
+  <form method="POST" role="form" action="">
+  <div class="form-group">
+    <input type='hidden' class="form-control" name='type' value='<?= $type; ?>' />
     <div>
       <label>Name: </label>
-      <input type='text' name='name' value='<?= $vals['name']; ?>' />
+      <input type='text' class="form-control" name='name' value='<?= $vals['name']; ?>' />
     </div>
     <div>
       <label>Picture url: </label>
-      <input type="text" name="picture_url" value='<?= $vals['picture_url']; ?>' />
+      <input type="text" class="form-control" name="picture_url" value='<?= $vals['picture_url']; ?>' />
     </div>
     <div>
       <label>Played in: </label>
-      <select name='movies[]' multiple="true" size="5"><?= $options; ?></select>
+      <select name='movies[]' class="form-control" multiple="true" size="5"><?= $options; ?></select>
     </div>
     <div>
-      <input type="submit" value="Add" />
+      <button type="submit" class="btn btn-default">Submit</div>
     </div>
-
+	</div>
   </form>
 
 </div>
