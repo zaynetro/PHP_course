@@ -58,13 +58,13 @@
 
     <?php if($this->u->logged) { ?>
     <div>
-      <form method='POST' action=''>
-      <input type='hidden' name='type' value='review' />
+      <form method='POST' role="form" action=''>
+      <input type='hidden' name='type' value='review' class="form-control" />
         <div>
-          <input type='text' name='review' value='<?= $review_val; ?>' />
+          <input type='text' name='review' class="form-control" value='<?= $review_val; ?>' />
         </div>
         <div>
-          <input type='submit' value='Add' />
+          <button type='submit' class="btn btn-default">Add</div>
         </div>
       </form>
     </div>
