@@ -24,27 +24,29 @@
     <?= $this->page->error; ?>
   </div>
 
-  <form method="POST" action="">
-    <input type='hidden' name='type' value='<?= $type; ?>' />
+  <form method="POST" role="form" action="">
+  <div class="form-group">
+    <input type='hidden' name='type' class="form-control" value='<?= $type; ?>' />
     <div>
       <label>Title: </label>
-      <input type='text' name='title' value='<?= $vals['title']; ?>' />
+      <input type='text' name='title' class="form-control" value='<?= $vals['title']; ?>' />
     </div>
     <div>
       <label>Description: </label>
-      <textarea name='description'><?= $vals['description']; ?></textarea>
+      <textarea name='description' class="form-control"><?= $vals['description']; ?></textarea>
     </div>
     <div>
       <label>Poster url: </label>
-      <input type="text" name="poster_url" value='<?= $vals['poster_url']; ?>' />
+      <input type="text" name="poster_url" class="form-control" value='<?= $vals['poster_url']; ?>' />
     </div>
     <div>
       <label>Year: </label>
-      <input type='text' name='year' value='<?= $vals['year']; ?>' />
+      <input type='text' name='year' class="form-control" value='<?= $vals['year']; ?>' />
     </div>
     <div>
-      <input type="submit" value="Add" />
+      <button type="submit" class="btn btn-default">Submit</div>
     </div>
+	</div>
   </form>
 
 </div>
