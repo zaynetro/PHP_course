@@ -44,7 +44,7 @@
       <select name='movies[]' class="form-control" multiple="true" size="5"><?= $options; ?></select>
     </div>
     <div>
-      <button type="submit" class="btn btn-default">Submit</div>
+      <button type="submit" class="btn btn-default">Submit</button>
     </div>
 	</div>
   </form>

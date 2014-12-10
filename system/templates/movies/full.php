@@ -64,7 +64,7 @@
           <input type='text' name='review' class="form-control" value='<?= $review_val; ?>' />
         </div>
         <div>
-          <button type='submit' class="btn btn-default">Add</div>
+          <button type='submit' class="btn btn-default">Add</button>
         </div>
       </form>
     </div>

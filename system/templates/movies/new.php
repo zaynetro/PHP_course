@@ -44,7 +44,7 @@
       <input type='text' name='year' class="form-control" value='<?= $vals['year']; ?>' />
     </div>
     <div>
-      <button type="submit" class="btn btn-default">Submit</div>
+      <button type="submit" class="btn btn-default">Submit</button>
     </div>
 	</div>
   </form>
