@@ -24,7 +24,7 @@
 
   <h1><?php if($type == 'edit') { ?>Edit<?php } else { ?>Add <?php } ?> actor</h1>
 
-  <div style='color: #c00'>
+  <div class="alert alert-danger" role="alert">
     <?= $this->page->error; ?>
   </div>
 

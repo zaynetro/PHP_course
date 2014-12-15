@@ -2,9 +2,9 @@
 
 <div class='container'>
 
-  <?php if($this->page->error) { ?>
-  <div style='color: #c00'><?= $this->page->error; ?></div>
-  <?php } ?>
+  <div class="alert alert-danger" role="alert">
+    <?= $this->page->error; ?>
+  </div>
 
   <form class='form-signin' role="form" method='POST' action=''>
   <h2 class='form-signin-heading'>Please Sign In</h2>

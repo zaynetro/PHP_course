@@ -20,7 +20,7 @@
 
   <h1><?php if($type == 'edit') { ?>Edit<?php } else { ?>Add <?php } ?> movie</h1>
 
-  <div style='color: #c00'>
+  <div class="alert alert-danger" role="alert">
     <?= $this->page->error; ?>
   </div>
 

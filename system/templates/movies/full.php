@@ -53,7 +53,9 @@
     <h3>Reviews</h3>
 
     <?php if(isset($this->page->review_error)) { ?>
-    <div style="color: #c00"><?= $this->page->review_error; ?></div>
+    <div class="alert alert-danger" role="alert">
+      <?= $this->page->review_error; ?>
+    </div>
     <?php } ?>
 
     <?php if($this->u->logged) { ?>
