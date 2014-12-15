@@ -20,9 +20,11 @@
 
   <h1><?php if($type == 'edit') { ?>Edit<?php } else { ?>Add <?php } ?> movie</h1>
 
+  <?php if(isset($this->page->error)) { ?>
   <div class="alert alert-danger" role="alert">
     <?= $this->page->error; ?>
   </div>
+  <?php } ?>
 
   <form method="POST" role="form" action="">
   <div class="form-group">

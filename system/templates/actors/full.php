@@ -10,12 +10,11 @@
 <div class='actor_container'>
   <h2><?= $name; ?></h2>
   <?php if($this->u->is_admin) { ?>
-  <div>
-    <ul>
-      <li><a href='/actors/<?= $id; ?>/edit'>Edit</a></li>
-      <li><a href='/actors/<?= $id; ?>/remove' onclick='return confirm("<?= $confirm_msg; ?>");'>Remove</a></li>
-    </ul>
+  <div class="btn-group" role="group">
+    <a href='/actors/<?= $id; ?>/edit' class='btn btn-sm btn-warning'>Edit</a>
+    <a href='/actors/<?= $id; ?>/remove' class='btn btn-sm btn-danger' onclick='return confirm("<?= $confirm_msg; ?>");'>Remove</a>
   </div>
+  <div style='height: 10px'></div>
   <?php } ?>
   <img src="<?= $pic; ?>" alt="<?= $name; ?>">
   <div class="about">

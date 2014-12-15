@@ -17,12 +17,11 @@
 <div class='movie_container'>
   <h2><?= $title; ?></h2>
   <?php if($this->u->is_admin) { ?>
-  <div>
-    <ul>
-      <li><a href='/movies/<?= $id; ?>/edit'>Edit</a></li>
-      <li><a href='/movies/<?= $id; ?>/remove' onclick='return confirm("<?= $confirm_msg; ?>");'>Remove</a></li>
-    </ul>
+  <div class="btn-group" role="group">
+    <a href='/movies/<?= $id; ?>/edit' class='btn btn-sm btn-warning'>Edit</a>
+    <a href='/movies/<?= $id; ?>/remove' class='btn btn-sm btn-danger' onclick='return confirm("<?= $confirm_msg; ?>");'>Remove</a>
   </div>
+  <div style='height: 10px'></div>
   <?php } ?>
   <img src="<?= $pic; ?>" alt="<?= $title; ?>" />
   <div class="about">
@@ -32,11 +31,11 @@
     <h3>Rating</h3>
     <div>
       <?php if($this->u->logged) { ?>
-      <a href='/movies/<?= $id; ?>/dislike'>-</a>
+      <a href='/movies/<?= $id; ?>/dislike'class="btn btn-default">-</a>
       <?php } ?>
       <span><?= $rating; ?></span>
       <?php if($this->u->logged) { ?>
-      <a href='/movies/<?= $id; ?>/like'>+</a>
+      <a href='/movies/<?= $id; ?>/like' class="btn btn-default">+</a>
       <?php } ?>
     </div>
 
@@ -49,7 +48,7 @@
     </ul>
   </div>
 
-  <div>
+  <div class='reviews'>
     <h3>Reviews</h3>
 
     <?php if(isset($this->page->review_error)) { ?>

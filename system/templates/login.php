@@ -2,9 +2,11 @@
 
 <div class='container'>
 
+  <?php if(isset($this->page->error)) { ?>
   <div class="alert alert-danger" role="alert">
     <?= $this->page->error; ?>
   </div>
+  <?php } ?>
 
   <form class='form-signin' role="form" method='POST' action=''>
   <h2 class='form-signin-heading'>Please Sign In</h2>

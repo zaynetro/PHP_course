@@ -7,6 +7,7 @@
     <?= $this->page->error; ?>
   </div>
   <?php } ?>
+
   <form class='form-signin' role='form' method='POST' action=''>
   <h2 class='form-signin-heading'>Sign Up</h2>
       <label>Username: </label>
